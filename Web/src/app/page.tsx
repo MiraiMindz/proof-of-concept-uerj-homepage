@@ -1,14 +1,10 @@
 'use client';
 import { useRouter } from "next/navigation";
-import { Squada_One } from 'next/font/google';
 import { Logo } from './assets/Logo';
 import { useState, ChangeEvent, FormEvent } from 'react';
 
-const SquadaOne = Squada_One({ weight: '400', subsets: ['latin'] });
-
-
 let inputStyle = `my-2 bg-transparent rounded-lg border-2
-border-neutral-900 dark:border-neutral-50
+border-neutral-50
 placeholder:text-center placeholder:text-neutral-50/75 text-center`;
 
 let buttonStyle = `mt-4 rounded-lg border-2 border-neutral-50 
@@ -97,15 +93,15 @@ export default function Home() {
 
 
     return (
-        <main className="bg-loginBG bg-no-repeat bg-cover flex flex-row-reverse items-start justify-start w-full h-full">
+        <main className="bg-loginBG bg-no-repeat bg-cover flex flex-row-reverse items-start justify-start w-full h-full text-neutral-50">
             <section className="p-8 flex-col justify-center items-center h-full backdrop-blur bg-neutral-900/50">
-                <h1 className={`${SquadaOne.className} mb-4 text-center text-2xl`}>Portal do Aluno</h1>
+                <h1 className="font-squadaOne mb-4 text-center text-2xl">Portal do Aluno</h1>
                 <div className='w-full flex justify-center items-center'>
                     <div className='w-24 h-24 flex items-center justify-center fill-neutral-50'>
                         <Logo />
                     </div>
                 </div>
-                <h1 className={`${SquadaOne.className} mt-12 mb-4 text-center text-2xl`}>Login</h1>
+                <h1 className="font-squadaOne mt-12 mb-4 text-center text-2xl">Login</h1>
                 <form className="flex flex-col w-min justify-center items-center" onSubmit={LoginUser}>
                     <input id="register" type="password"
                         placeholder="Insira sua matricula" className={inputStyle}

@@ -62,7 +62,7 @@ export default function Page() {
                         <nav className="flex flex-col justify-between h-full w-12 rounded-xl border-2 hover:w-40 overflow-hidden transition-all relative border-neutral-900 dark:border-neutral-50">
                             <div className="absolute top-2 left-0">
                                 <Link href="/home" className={sidebarNavItemStyle}>
-                                    <div className="content-[''] mr-1.5 w-1 h-8 rounded-r-xl bg-neutral-900 dark:bg-neutral-50"></div>
+                                    <div className="content-[''] mr-1.5 w-1 h-8"></div>
                                     <div className={`${iconsSize}`}>
                                         <House />
                                     </div>
@@ -71,7 +71,7 @@ export default function Page() {
                             </div>
                             <div className="h-[4.5rem] flex flex-col justify-between items-start absolute bottom-2 left-0">
                                 <Link href="/userzone" className={sidebarNavItemStyle}>
-                                    <div className="content-[''] mr-1.5 w-1 h-8"></div>
+                                    <div className="content-[''] mr-1.5 w-1 h-8 rounded-r-xl bg-neutral-900 dark:bg-neutral-50"></div>
                                     <div className={`${iconsSize}`}>
                                         <User />
                                     </div>
@@ -89,7 +89,7 @@ export default function Page() {
                     </div>
                     <main className="w-full h-full flex justify-center items-start p-2">
                         <section>
-                            <h1>Página Inicial</h1>
+                            <h1>Informações</h1>
                         </section>
                     </main>
                 </main>

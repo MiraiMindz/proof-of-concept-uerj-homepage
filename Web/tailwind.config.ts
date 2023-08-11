@@ -11,9 +11,15 @@ const config: Config = {
             backgroundImage: {
                 'loginBG': "url('/LoginSideBG.png')"
             },
+            fontFamily: {
+                'inter': ['var(--font-Inter)'],
+                'squadaOne': ['var(--font-Squada-One)'],
+                'oswald': ['var(--font-Oswald)']
+            },
         },
         plugins: [],
-    }
+    },
+    darkMode: 'class'
 }
 
 export default config
