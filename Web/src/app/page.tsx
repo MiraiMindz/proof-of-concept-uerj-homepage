@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { Logo } from './assets/Logo';
 import { useState, ChangeEvent, FormEvent } from 'react';
+import { block } from "million/react";
 
 let inputStyle = `my-2 bg-transparent rounded-lg border-2
 border-neutral-50
@@ -32,7 +33,7 @@ async function generateHash(str: string, algorithm = "SHA-512") {
 }
 
 
-export default function Home() {
+export default block(function Home() {
     if (localStorage.getItem('sessionID')) {
         localStorage.removeItem('sessionID');
     }
@@ -115,6 +116,6 @@ export default function Home() {
             <div className="content-[''] h-full mb-2 rounded-full w-2 -mr-1 bg-neutral-900 z-10"></div>
         </main>
     );
-}
+});
 
 

@@ -1,23 +1,8 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter, Oswald, Squada_One } from 'next/font/google'
+import { FontsVariables } from './assets/styles';
 
-const inter = Inter({
-    subsets: ['latin'],
-    variable: '--font-Inter'
-})
 
-const squadaOne = Squada_One({
-    weight: '400',
-    subsets: ['latin'],
-    variable: '--font-Squada-One'
-});
-
-const oswald = Oswald({
-    weight: ['200', '300', '400', '500', '600', '700'],
-    subsets: ['latin'],
-    variable: '--font-Oswald'
-});
 
 export const metadata: Metadata = {
     title: 'Portal do Aluno',
@@ -31,8 +16,8 @@ export default function RootLayout({
 }) {
     return (
         <html lang="pt-br">
-            <body id="ROOTBODY" className={`${inter.variable} ${squadaOne.variable} ${oswald.variable}
-                            font-inter w-screen h-screen`}>
+            <body id="ROOTBODY" className={`${FontsVariables} 
+                                font-inter w-screen h-screen`}>
                 {children}
             </body>
         </html>
