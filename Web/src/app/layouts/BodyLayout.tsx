@@ -1,11 +1,9 @@
 'use client';
 
-import { block } from "million/react";
 import { AuthProvider } from "../utils/Contexts";
 import { FontsVariables } from "../assets/styles";
 
-export default block(function Layout({ children }: { children: React.ReactNode }) {
-
+export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <AuthProvider>
             <body id="ROOTBODY" className={`${FontsVariables} 
@@ -14,4 +12,4 @@ export default block(function Layout({ children }: { children: React.ReactNode }
             </body>
         </AuthProvider>
     );
-});
+};

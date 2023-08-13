@@ -29,14 +29,21 @@ async function generateHash(str: string, algorithm = "SHA-512") {
 
 
 export default block(function Index() {
-    if (localStorage.getItem('sessionID')) {
-        localStorage.removeItem('sessionID');
+    if (window !== undefined) {
+        console.log("WINDOW IS PRESENT");
+        if (typeof localStorage !== 'undefined') {
+            console.log('LOCALSTORAGE IS PRESENT');
+            if (localStorage.getItem('sessionID')) {
+                console.log("SESSION ID IS PRESENT");
+                localStorage.removeItem('sessionID');
+            }
+        }
     }
 
     const [register, setRegister] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const router = useRouter();
     const { _, setIsLoggedIn } = useAuth();
+    const router = useRouter();
 
     const handleRegisterChange = (event: ChangeEvent<HTMLInputElement>) => {
         setRegister(event.target.value);
@@ -57,6 +64,10 @@ export default block(function Index() {
         }
     };
 
+    const setAuthState = async (state: boolean) => {
+        setIsLoggedIn(state);
+    };
+
     const LoginUser = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const hashedRegister = await generateHash(register);
@@ -68,17 +79,21 @@ export default block(function Index() {
         if (!fetchedData) {
             console.log("Failed to fetch data");
         } else if (hashedRegister === fetchedData.username && hashedPassword === fetchedData.password) {
-            localStorage.setItem('sessionID', hashedRegister);
-            setIsLoggedIn(true);
+            if (window !== undefined) {
+                console.log("WINDOW IS PRESENT");
+                if (typeof localStorage !== 'undefined') {
+                    console.log('LOCALSTORAGE IS PRESENT');
+                    localStorage.setItem('sessionID', hashedRegister);
+                }
+            }
+            await setAuthState(true);
             router.push('/portal');
         } else if (hashedRegister !== fetchedData.username) {
             console.log("INCORRECT USERNAME");
         } else {
             console.log("INCORRECT PASSWORD");
         }
-
     };
-
 
     return (
         <main className="bg-loginBG bg-no-repeat bg-cover flex flex-row-reverse items-start justify-start w-full h-full text-neutral-50">

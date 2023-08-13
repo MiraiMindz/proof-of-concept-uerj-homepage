@@ -1,17 +1,25 @@
-''use client';
+'use client';
 
-export function Index() {
+import { ReactNode, lazy, Suspense } from 'react';
+
+const PortalLayout = lazy(() => import('../layouts/PortalLayout'));
+
+function Layout({ children }: any): ReactNode {
     return (
-        <main>
-            <h1>Page</h1>
-        </main>
+        <Suspense fallback={<p>Loading...</p>}>
+            <PortalLayout>
+                {children}
+            </PortalLayout>
+        </Suspense>
     );
-}use client';
+}
 
-export function Index() {
+export default function Index(): ReactNode {
     return (
-        <main>
-            <h1>Page</h1>
-        </main>
+        <Layout>
+            <main>
+                <h1>Page</h1>
+            </main>
+        </Layout>
     );
 }
