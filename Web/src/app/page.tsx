@@ -1,22 +1,9 @@
 'use client';
 import { useRouter } from "next/navigation";
 import { Logo } from './assets/Logo';
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, useContext, createContext } from 'react';
 import { block } from "million/react";
-
-let inputStyle = `my-2 bg-transparent rounded-lg border-2
-border-neutral-50
-placeholder:text-center placeholder:text-neutral-50/75 text-center`;
-
-let buttonStyle = `mt-4 rounded-lg border-2 border-neutral-50 
-bg-transparent text-neutral-50 w-fit px-2 transition-all
-hover:bg-neutral-50 hover:text-neutral-900`;
-
-
-interface UserData {
-    username: string;
-    password: string;
-}
+import { User } from "./utils/Types";
 
 
 async function generateHash(str: string, algorithm = "SHA-512") {
@@ -37,6 +24,10 @@ export default block(function Home() {
     if (localStorage.getItem('sessionID')) {
         localStorage.removeItem('sessionID');
     }
+    const userContext = createContext(null);
+    const user = userContext(userContext);
+    const [userContextValue, setUserContext] = useState<User>();
+
 
     const [register, setRegister] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -65,56 +56,49 @@ export default block(function Home() {
         e.preventDefault();
         const hashedRegister = await generateHash(register);
         const hashedPassword = await generateHash(password);
-        console.log("password", password, typeof password);
-        console.log("register", register, typeof register);
-        console.log("hashedRegister", hashedRegister, typeof hashedRegister)
-        console.log("hashedPassword", hashedPassword, typeof hashedPassword)
 
         const apiUrl = `http://localhost:8080/users/${hashedRegister}`;
 
-        const fetchedData: UserData = await fetchData(apiUrl);
-        if (fetchedData) {
-            console.log("dbRegister", fetchedData?.username, typeof fetchedData?.username)
-            console.log("dbPassword", fetchedData?.password, typeof fetchedData?.password)
-
-            if (hashedRegister === fetchedData?.username) {
-                if (hashedPassword === fetchedData?.password) {
-                    localStorage.setItem('sessionID', hashedRegister);
-                    router.push('/home');
-                } else {
-                    console.log("INCORRECT PASSWORD")
-                }
-            } else {
-                console.log("INCORRECT USERNAME")
-            }
-        } else {
+        const fetchedData: User = await fetchData(apiUrl);
+        if (!fetchedData) {
             console.log("Failed to fetch data");
+        } else if (hashedRegister === fetchedData.Register && hashedPassword === fetchedData.Password) {
+            localStorage.setItem('sessionID', hashedRegister);
+            setUserContext(fetchedData);
+            router.push('/portal');
+        } else if (hashedRegister !== fetchedData.Register) {
+            console.log("INCORRECT USERNAME");
+        } else {
+            console.log("INCORRECT PASSWORD");
         }
+
     };
 
 
     return (
-        <main className="bg-loginBG bg-no-repeat bg-cover flex flex-row-reverse items-start justify-start w-full h-full text-neutral-50">
-            <section className="p-8 flex-col justify-center items-center h-full backdrop-blur bg-neutral-900/50">
-                <h1 className="font-squadaOne mb-4 text-center text-2xl">Portal do Aluno</h1>
-                <div className='w-full flex justify-center items-center'>
-                    <div className='w-24 h-24 flex items-center justify-center fill-neutral-50'>
-                        <Logo />
+        <userContext.Provider value={{ userContextValue, setUserContext } as unknown as null}>
+            <main className="bg-loginBG bg-no-repeat bg-cover flex flex-row-reverse items-start justify-start w-full h-full text-neutral-50">
+                <section className="p-8 flex-col justify-center items-center h-full backdrop-blur bg-neutral-900/50">
+                    <h1 className="font-squadaOne mb-4 text-center text-2xl">Portal do Aluno</h1>
+                    <div className='w-full flex justify-center items-center'>
+                        <div className='w-24 h-24 flex items-center justify-center fill-neutral-50'>
+                            <Logo />
+                        </div>
                     </div>
-                </div>
-                <h1 className="font-squadaOne mt-12 mb-4 text-center text-2xl">Login</h1>
-                <form className="flex flex-col w-min justify-center items-center" onSubmit={LoginUser}>
-                    <input id="register" type="password"
-                        placeholder="Insira sua matricula" className={inputStyle}
-                        onChange={handleRegisterChange} />
-                    <input id="password" type="password"
-                        placeholder="Insira sua senha" className={inputStyle}
-                        onChange={handlePasswordChange} />
-                    <button className={buttonStyle} type="submit">Entrar</button>
-                </form>
-            </section>
-            <div className="content-[''] h-full mb-2 rounded-full w-2 -mr-1 bg-neutral-900 z-10"></div>
-        </main>
+                    <h1 className="font-squadaOne mt-12 mb-4 text-center text-2xl">Login</h1>
+                    <form className="flex flex-col w-min justify-center items-center" onSubmit={LoginUser}>
+                        <input id="register" type="password"
+                            placeholder="Insira sua matricula" className={inputStyle}
+                            onChange={handleRegisterChange} />
+                        <input id="password" type="password"
+                            placeholder="Insira sua senha" className={inputStyle}
+                            onChange={handlePasswordChange} />
+                        <button className={buttonStyle} type="submit">Entrar</button>
+                    </form>
+                </section>
+                <div className="content-[''] h-full mb-2 rounded-full w-2 -mr-1 bg-neutral-900 z-10"></div>
+            </main>
+        </userContext.Provider>
     );
 });
 
