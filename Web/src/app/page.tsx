@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from "next/navigation";
 import { Logo } from './assets/Logo';
-import { AuthProvider, useAuth } from "./utils/Contexts";
+import { useAuth } from "./utils/Contexts";
 import { Button, Input } from "./assets/styles";
 
 
@@ -28,7 +28,7 @@ async function generateHash(str: string, algorithm = "SHA-512") {
 }
 
 
-export default block(function Home() {
+export default block(function Index() {
     if (localStorage.getItem('sessionID')) {
         localStorage.removeItem('sessionID');
     }
@@ -81,29 +81,27 @@ export default block(function Home() {
 
 
     return (
-        <AuthProvider>
-            <main className="bg-loginBG bg-no-repeat bg-cover flex flex-row-reverse items-start justify-start w-full h-full text-neutral-50">
-                <section className="p-8 flex-col justify-center items-center h-full backdrop-blur bg-neutral-900/50">
-                    <h1 className="font-squadaOne mb-4 text-center text-2xl">Portal do Aluno</h1>
-                    <div className='w-full flex justify-center items-center'>
-                        <div className='w-24 h-24 flex items-center justify-center fill-neutral-50'>
-                            <Logo />
-                        </div>
+        <main className="bg-loginBG bg-no-repeat bg-cover flex flex-row-reverse items-start justify-start w-full h-full text-neutral-50">
+            <section className="p-8 flex-col justify-center items-center h-full backdrop-blur bg-neutral-900/50">
+                <h1 className="font-squadaOne mb-4 text-center text-2xl">Portal do Aluno</h1>
+                <div className='w-full flex justify-center items-center'>
+                    <div className='w-24 h-24 flex items-center justify-center fill-neutral-50'>
+                        <Logo />
                     </div>
-                    <h1 className="font-squadaOne mt-12 mb-4 text-center text-2xl">Login</h1>
-                    <form className="flex flex-col w-min justify-center items-center" onSubmit={LoginUser}>
-                        <input id="register" type="password"
-                            placeholder="Insira sua matricula" className={Input}
-                            onChange={handleRegisterChange} />
-                        <input id="password" type="password"
-                            placeholder="Insira sua senha" className={Input}
-                            onChange={handlePasswordChange} />
-                        <button className={Button} type="submit">Entrar</button>
-                    </form>
-                </section>
-                <div className="content-[''] h-full mb-2 rounded-full w-2 -mr-1 bg-neutral-900 z-10"></div>
-            </main>
-        </AuthProvider>
+                </div>
+                <h1 className="font-squadaOne mt-12 mb-4 text-center text-2xl">Login</h1>
+                <form className="flex flex-col w-min justify-center items-center" onSubmit={LoginUser}>
+                    <input id="register" type="password"
+                        placeholder="Insira sua matricula" className={Input}
+                        onChange={handleRegisterChange} />
+                    <input id="password" type="password"
+                        placeholder="Insira sua senha" className={Input}
+                        onChange={handlePasswordChange} />
+                    <button className={Button} type="submit">Entrar</button>
+                </form>
+            </section>
+            <div className="content-[''] h-full mb-2 rounded-full w-2 -mr-1 bg-neutral-900 z-10"></div>
+        </main>
     );
 });
 

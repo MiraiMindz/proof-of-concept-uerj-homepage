@@ -1,8 +1,6 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { FontsVariables } from './assets/styles';
-
-
+import './globals.css';
+import type { Metadata } from 'next';
+import BodyLayout from './layouts/BodyLayout';
 
 export const metadata: Metadata = {
     title: 'Portal do Aluno',
@@ -16,9 +14,10 @@ export default function RootLayout({
 }) {
     return (
         <html lang="pt-br">
-            <body id="ROOTBODY" className={`${FontsVariables} 
-                                font-inter w-screen h-screen`}>
-                {children}
+            <body>
+                <BodyLayout>
+                    {children}
+                </BodyLayout>
             </body>
         </html>
     )
